@@ -8,11 +8,11 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-central-1"
 }
 
 data "aws_vpc" "main" {
-  id = "vpc-c3be22b9"
+  id = "vpc-0b7740a98f67426fe"
 }
 
 
@@ -66,17 +66,12 @@ resource "aws_key_pair" "deployer" {
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYEYsmIn73rDKorEofqKWf6deW69msWWoKZdh9h+VOhagT9PS1KCNPp7Nyogj1b+6I6SohZwu7GqSDBChCKI72scGXljFNYNrjpE4oy/K4UHqDTIYWJ+c4GSxr6Qul8i68nb31F0pOb/pknN0mztWrZIhDOpjrxmPZ5ibNvBrm1trvSWyNy4+cZXXaZjtko4dcoyj/38N+GWjGu2ZnkYzfYB3cFV2x+TGiX3EDm7KHd8AA3CpBDsaSXg1OZ456OA6jW5bBRcSHeAaN6YAiLlzj1WbI6yS3KrVL7HafNBovCv2mGYMOqCkGshiLDbOpi0LmAYqYA4VAkvPeLlWtttPXjDNXQZ1wroZVb32fPOpBZfJ2pU2xsj+DDq79Y/FbU87kViz24fen+ah/WkBaZJl+veX741gkwplNQw6/edWPqse0xH6Rga+a6ZHuIJl+2HnXb3EeZSCz3VBFCZHk00FdUBsfLB7kXKbT6ujodIBcCaH3uw+lPfyN3xdrv5ZFep8= andrew@DESKTOP-1LHO517"
 }
 
-data "template_file" "user_data" {
-	template = file("./userdata.yaml")
-}
-
 
 resource "aws_instance" "my_server" {
   ami           = "ami-087c17d1fe0178315"
   instance_type = "t3.micro"
-	key_name = "${aws_key_pair.deployer.key_name}"
 	vpc_security_group_ids = [aws_security_group.sg_my_server.id]
-	user_data = data.template_file.user_data.rendered
+  user_data = templatefile("${path.module}/userdata.yaml", {})
   provisioner "file" {
     content     = "mars"
     destination = "/home/ec2-user/barsoon.txt"
