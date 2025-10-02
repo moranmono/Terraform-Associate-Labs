@@ -19,7 +19,7 @@ variable "instance_type" {
 
 provider "aws" {
   profile = "default"
-  region  = "us-east-1"
+  region  = "eu-central-1"
 }
 
 data "aws_ami" "ubuntu" {
