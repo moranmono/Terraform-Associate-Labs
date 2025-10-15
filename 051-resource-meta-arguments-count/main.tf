@@ -9,12 +9,12 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "us-east-1"
+  region  = "eu-central-1"
 }
 resource "aws_instance" "my_server" {
 	count = 2
-  ami           = "ami-087c17d1fe0178315"
-  instance_type = "t2.micro"
+  ami           = "ami-08697da0e8d9f59ec"
+  instance_type = "t3.micro"
 	tags = {
 		Name = "Server-${count.index}"
 	}
