@@ -9,16 +9,16 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "us-east-1"
+  region  = "eu-central-1"
 }
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "43802482094298-depends-on"
+  bucket = "08697da0e8d9f59ec-depends-on"
 }
 
 resource "aws_instance" "my_server" {
-  ami           = "ami-087c17d1fe0178315"
-  instance_type = "t2.micro"
+  ami           = "ami-08697da0e8d9f59ec"
+  instance_type = "t3.micro"
 	depends_on = [
 		aws_s3_bucket.bucket
 	]
